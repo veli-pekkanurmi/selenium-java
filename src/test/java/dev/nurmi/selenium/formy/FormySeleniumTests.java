@@ -7,10 +7,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+
+import net.sourceforge.htmlunit.corejs.javascript.JavaScriptException;
 
 public class FormySeleniumTests {
 
@@ -98,6 +101,43 @@ public class FormySeleniumTests {
 
 		Alert alert = this.driver.switchTo().alert();
 		alert.accept();
+	}
+
+	/*
+	 * JAVASCRIPT
+	 * executeAsyncScript - ensure finished / callback
+	 * executeScript - body of anonymous function
+	 * 
+	 * when..
+	 * - driver fail to click on any element (find element)
+	 * - trigger actions on page
+	 * - perform movement on page
+	 */
+
+	@Test
+	public void executeJavaScriptModal() {
+
+		this.driver.get("http://formy-project.herokuapp.com/modal");
+
+		WebElement modalButton = this.driver.findElement(By.id("modal-button"));
+		modalButton.click();
+
+		WebElement closeButton = this.driver.findElement(By.id("close-button"));
+		JavascriptExecutor jsExecutor = (JavascriptExecutor) this.driver;
+		jsExecutor.executeScript("arguments[0].click()", closeButton);
+	}
+
+	@Test
+	public void dragAndDrop() {
+
+		this.driver.get("http://formy-project.herokuapp.com/dragdrop");
+
+		WebElement image = this.driver.findElement(By.id("image"));
+		WebElement box = this.driver.findElement(By.id("box"));
+
+		Actions actions = new Actions(this.driver);
+		actions.dragAndDrop(image, box).build().perform();
+
 	}
 
 }
