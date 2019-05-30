@@ -7,18 +7,21 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class KeyboardandMouseInput {
 
+	
+	
 	public static void main(String[] args) {
 
 		WebDriver driver = new ChromeDriver();
 
-		driver.get("http://formy-project.herokuapp.com/keypress");
+		driver.get("http://formy-project.herokuapp.com/autocomplete");
 
-		WebElement name = driver.findElement(By.id("name"));
-		name.click(); // make actice
-		name.sendKeys("Vellu");
+		WebElement autocomplete = driver.findElement(By.id("autocomplete"));
 
-		WebElement button = driver.findElement(By.id("button"));
-		button.click();
+		autocomplete.click();
+		autocomplete.sendKeys("Mannerheimintie 15 Helsi"); // just 1 suggestion
+
+		WebElement autocompleteResult = driver.findElement(By.className("pac-item"));
+		autocompleteResult.click();
 
 		driver.quit();
 	}
