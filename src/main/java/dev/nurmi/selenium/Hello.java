@@ -1,4 +1,4 @@
-package dev.nurmi.maven;
+package dev.nurmi.selenium;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.WebDriver;

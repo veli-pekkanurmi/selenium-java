@@ -1,4 +1,4 @@
-package dev.nurmi.maven;
+package dev.nurmi.selenium;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
