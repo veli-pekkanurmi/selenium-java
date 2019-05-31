@@ -137,6 +137,54 @@ public class FormySeleniumTests {
 
 		Actions actions = new Actions(this.driver);
 		actions.dragAndDrop(image, box).build().perform();
+	}
+
+	//
+	// Advanced selectors
+
+	@Test
+	public void multipleCSSSelectors() {
+
+		this.driver.get("http://formy-project.herokuapp.com/");
+
+		// tag and ..
+		WebElement tagAndClass = this.driver.findElement(By.cssSelector("input.q"));
+		WebElement tagAndId = this.driver.findElement(By.cssSelector("input#q"));
+		WebElement tagAndAttributeType = this.driver.findElement(By.cssSelector("input[type='radio']"));
+		WebElement tagAndAttributeValue = this.driver.findElement(By.cssSelector("input[value='radio button']"));
+		WebElement multipleClasses = this.driver.findElement(By.cssSelector(".btn.btn-lg.btn-success"));
+
+		// match by text ..
+		// - exact Match
+		// - prefix
+		// - suffix
+		// - substring
+	}
+
+	/*
+	 * Child nodes
+	 * Nth child
+	 */
+
+	// COMPONENTS
+
+	@Test
+	public void radioButton() throws InterruptedException {
+
+		this.driver.get("http://formy-project.herokuapp.com/radiobutton");
+
+		WebElement radioButton1 = this.driver.findElement(By.id("radio-button-1"));
+		radioButton1.click();
+		Thread.sleep(1000);
+
+		WebElement radioButton2 = this.driver.findElement(By.cssSelector("input[value='option2']"));
+		radioButton2.click();
+		Thread.sleep(1000);
+
+		WebElement radioButton3 = this.driver.findElement(By.xpath("/html/body/div/div[3]/input"));
+		System.out.println("is null: " + (null == radioButton3));
+		radioButton3.click();
+		Thread.sleep(1000);
 
 	}
 
