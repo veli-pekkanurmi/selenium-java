@@ -1,6 +1,5 @@
 package dev.nurmi.selenium.formy;
 
-import java.time.Duration;
 
 import org.junit.After;
 import org.junit.Before;
@@ -8,12 +7,12 @@ import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
-import net.sourceforge.htmlunit.corejs.javascript.JavaScriptException;
 
 public class FormySeleniumTests {
 
@@ -59,7 +58,6 @@ public class FormySeleniumTests {
 
 	@Test
 	public void scrollPageContent() {
-
 		this.driver.get("http://formy-project.herokuapp.com/scroll");
 
 		WebElement name = driver.findElement(By.id("name"));
@@ -73,7 +71,6 @@ public class FormySeleniumTests {
 
 	@Test
 	public void switchWindow() {
-
 		this.driver.get("http://formy-project.herokuapp.com/switch-window");
 
 		WebElement newTabButton = driver.findElement(By.id("new-tab-button"));
@@ -93,7 +90,6 @@ public class FormySeleniumTests {
 
 	@Test
 	public void switchToAlert() {
-
 		this.driver.get("http://formy-project.herokuapp.com/switch-window");
 
 		WebElement alertButton = driver.findElement(By.id("alert-button"));
@@ -116,7 +112,6 @@ public class FormySeleniumTests {
 
 	@Test
 	public void executeJavaScriptModal() {
-
 		this.driver.get("http://formy-project.herokuapp.com/modal");
 
 		WebElement modalButton = this.driver.findElement(By.id("modal-button"));
@@ -129,7 +124,6 @@ public class FormySeleniumTests {
 
 	@Test
 	public void dragAndDrop() {
-
 		this.driver.get("http://formy-project.herokuapp.com/dragdrop");
 
 		WebElement image = this.driver.findElement(By.id("image"));
@@ -144,7 +138,6 @@ public class FormySeleniumTests {
 
 	@Test
 	public void multipleCSSSelectors() {
-
 		this.driver.get("http://formy-project.herokuapp.com/");
 
 		// tag and ..
@@ -170,7 +163,6 @@ public class FormySeleniumTests {
 
 	@Test
 	public void radioButton() throws InterruptedException {
-
 		this.driver.get("http://formy-project.herokuapp.com/radiobutton");
 
 		WebElement radioButton1 = this.driver.findElement(By.id("radio-button-1"));
@@ -185,7 +177,46 @@ public class FormySeleniumTests {
 		System.out.println("is null: " + (null == radioButton3));
 		radioButton3.click();
 		Thread.sleep(1000);
+	}
+
+	@Test
+	public void checkBox() throws InterruptedException {
+		this.driver.get("http://formy-project.herokuapp.com/checkbox");
+
+		WebElement checkBox = this.driver.findElement(By.id("checkbox-2"));
+		checkBox.click();
+	}
+
+	@Test
+	public void datePicker() throws InterruptedException {
+		this.driver.get("http://formy-project.herokuapp.com/datepicker");
+
+		WebElement dateField = this.driver.findElement(By.id("datepicker"));
+		dateField.sendKeys("07/08/1985");
+		dateField.sendKeys(Keys.RETURN); // close with enter
+	}
+	
+	@Test
+	public void dropdown() throws InterruptedException {
+		this.driver.get("http://formy-project.herokuapp.com/dropdown");
+
+		WebElement dropDownMenu = this.driver.findElement(By.id("dropdownMenuButton"));
+		dropDownMenu.click();
+		WebElement autoCompleate = this.driver.findElement(By.id("autocomplete"));
+		autoCompleate.click();
 
 	}
+	
+	@Test
+	public void fileUpload() throws InterruptedException {
+		this.driver.get("http://formy-project.herokuapp.com/fileupload");
+		
+		WebElement fileUploadField = this.driver.findElement(By.id("file-upload-field"));
+		fileUploadField.sendKeys("file-to-upload.png");
+
+	}
+	
+	
+	
 
 }
