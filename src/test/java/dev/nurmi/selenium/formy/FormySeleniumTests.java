@@ -1,5 +1,6 @@
 package dev.nurmi.selenium.formy;
 
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,7 +13,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
-
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class FormySeleniumTests {
 
@@ -43,14 +45,13 @@ public class FormySeleniumTests {
 	}
 
 	@Test
-	public void autocompleate() throws InterruptedException {
+	public void autocompleate() {
 		this.driver.get("http://formy-project.herokuapp.com/autocomplete");
 
 		WebElement autocomplete = driver.findElement(By.id("autocomplete"));
 
 		autocomplete.click();
 		autocomplete.sendKeys("Mannerheimintie 15 Helsi"); // just 1 suggestion
-		Thread.sleep(1000);
 
 		WebElement autocompleteResult = driver.findElement(By.className("pac-item"));
 		autocompleteResult.click();
@@ -162,25 +163,25 @@ public class FormySeleniumTests {
 	// COMPONENTS
 
 	@Test
-	public void radioButton() throws InterruptedException {
+	public void radioButton() {
 		this.driver.get("http://formy-project.herokuapp.com/radiobutton");
 
 		WebElement radioButton1 = this.driver.findElement(By.id("radio-button-1"));
 		radioButton1.click();
-		Thread.sleep(1000);
+		this.driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 
 		WebElement radioButton2 = this.driver.findElement(By.cssSelector("input[value='option2']"));
 		radioButton2.click();
-		Thread.sleep(1000);
+		this.driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 
 		WebElement radioButton3 = this.driver.findElement(By.xpath("/html/body/div/div[3]/input"));
 		System.out.println("is null: " + (null == radioButton3));
 		radioButton3.click();
-		Thread.sleep(1000);
+		this.driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 	}
 
 	@Test
-	public void checkBox() throws InterruptedException {
+	public void checkBox() {
 		this.driver.get("http://formy-project.herokuapp.com/checkbox");
 
 		WebElement checkBox = this.driver.findElement(By.id("checkbox-2"));
@@ -188,16 +189,16 @@ public class FormySeleniumTests {
 	}
 
 	@Test
-	public void datePicker() throws InterruptedException {
+	public void datePicker() {
 		this.driver.get("http://formy-project.herokuapp.com/datepicker");
 
 		WebElement dateField = this.driver.findElement(By.id("datepicker"));
 		dateField.sendKeys("07/08/1985");
 		dateField.sendKeys(Keys.RETURN); // close with enter
 	}
-	
+
 	@Test
-	public void dropdown() throws InterruptedException {
+	public void dropdown() {
 		this.driver.get("http://formy-project.herokuapp.com/dropdown");
 
 		WebElement dropDownMenu = this.driver.findElement(By.id("dropdownMenuButton"));
@@ -206,17 +207,46 @@ public class FormySeleniumTests {
 		autoCompleate.click();
 
 	}
-	
+
 	@Test
-	public void fileUpload() throws InterruptedException {
+	public void fileUpload() {
 		this.driver.get("http://formy-project.herokuapp.com/fileupload");
-		
+
 		WebElement fileUploadField = this.driver.findElement(By.id("file-upload-field"));
 		fileUploadField.sendKeys("file-to-upload.png");
 
 	}
-	
-	
-	
+
+	/*
+	 * Synchronization Issues
+	 * - Speed
+	 * > different drivers
+	 * > local / Server
+	 * 
+	 * Smell :
+	 * > no such element exception > add await, implicit, explicit
+	 */
+
+	@Test
+	public void implicitWait() {
+		this.driver.get("http://formy-project.herokuapp.com");
+		this.driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+	}
+
+	@Test
+	public void explicitWait() {
+		this.driver.get("http://formy-project.herokuapp.com");
+
+		// wait for Y time to happen for X time
+		WebDriverWait wait = new WebDriverWait(this.driver, 10);
+		WebElement dropDownMenu = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(
+				"dropdownMenuButton")));
+
+		// see JavaDocs ExpectedConditions for options
+		
+		dropDownMenu.click();
+
+		this.driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+	}
 
 }
